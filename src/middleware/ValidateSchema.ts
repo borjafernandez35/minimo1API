@@ -7,6 +7,7 @@ import { IMessage } from '../models/Message';
 import { IChat } from '../models/Chat';
 import { IComment } from '../models/Comment';
 import { ICategory } from '../models/Category';
+import { IValoration } from '../models/Valoration'
 
 export const ValidateSchema = (schema: ObjectSchema) => {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -152,6 +153,28 @@ export const Schemas = {
                 .required(),
             text: Joi.string().required(),
             punctuation: Joi.number().optional()
+        }),
+        valoration: {
+        create: Joi.object<IValoration>({
+            eventName: Joi.string()
+                .regex(/^[0-9a-fA-F]{24}/)
+                .optional(),
+             idUser: Joi.array().items(Joi.string().optional()),
+            date: Joi.date().required(),
+            description: Joi.string().required(),
+            avatar: Joi.string().optional(),
+            idComments: Joi.array().items(Joi.string().optional())
+        }),
+        update: Joi.object<IValoration>({
+            eventName: Joi.string()
+                .regex(/^[0-9a-fA-F]{24}/)
+                .optional(),
+            idUser: Joi.array().items(Joi.string().optional()),
+            date: Joi.date().required(),
+            description: Joi.string().required(),
+            avatar: Joi.string().optional(),
+            idComments: Joi.array().items(Joi.string().optional())
         })
     }
+}
 };
